@@ -1,6 +1,6 @@
 # SID2TVC Converter 1.4.1
 
-![SID2TVC PC CONVERTER](kepek/converter.png)
+<img src="kepek/converter.png" alt="SID2TVC PC CONVERTER" width="50%">
 
 **C64-es SID-zenéből TVC-zene – a PC-n.**
 

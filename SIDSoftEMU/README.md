@@ -1,6 +1,6 @@
 # SIDSoftEMU 1.1
 
-![SIDSOFTEMU TVC PLAYER](kepek/sidsoftemu.png)
+<img src="kepek/sidsoftemu.png" alt="SIDSOFTEMU TVC PLAYER" width="50%">
 
 **Commodore 64-es SID-zenék a Videoton TV-Computeren, SID-kártya nélkül.**
 

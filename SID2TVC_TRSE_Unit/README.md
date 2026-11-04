@@ -1,6 +1,6 @@
 # SID2TVC TRSE Unit 1.0
 
-![SID-PLAYER TRSE UNIT](kepek/sidplayer.png)
+<img src="kepek/sidplayer.png" alt="SID-PLAYER TRSE UNIT" width="50%">
 
 **C64-es SID-zene háttérzenének Videoton TV-Computer játékokhoz – TRSE-unit.**
 
@@ -34,6 +34,26 @@ A sid2tvc minden kapcsolója (és a SID → STC a SIDSoftEMU-hoz): [SID2TVC Conv
 
 Kell még egy közös, 512 byte-os hely (laphatáron): ide a unit maga készíti el a zaj- és a szinttáblát. Több zenénél is
 elég egy. Hogy mi hová kerül, azt a programozó dönti el a méretek alapján.
+
+### Mit jelent a „laphatár”?
+
+A laphatár azt jelenti, hogy a cím **00-ra végződik** (hexában), például `$5000`, `$6100` vagy `$7E00`. A Z80 a memóriát
+256 byte-os „lapokra” osztva is tudja kezelni, és egy lap mindig egy ilyen kerek címen kezdődik.
+
+**Miért kell a hangszíneket oda tölteni?** A sebesség miatt. Egy hangszín-tábla 256 byte: egy hullám egy periódusa 256
+pontban. A lejátszó másodpercenként kb. 5000-szer, mind a három hangra kiolvas belőle egy értéket. Ha a tábla kerek címen
+kezdődik, a cím két része egyszerűen összerakható:
+
+- a cím **eleje** (`$50`) megmondja, **melyik tábla**;
+- a cím **vége** (`$00`–`$FF`) megmondja, **hol tart a hullám**.
+
+Így a kiolvasás egyetlen gyors lépés, nincs benne összeadás. Ha a tábla nem kerek címen kezdődne, minden kiolvasásnál még
+össze is kellene adni – másodpercenként 15 000 összeadással több –, a lejátszó érezhetően lassabb lenne, és még kevesebb
+idő maradna a játéknak.
+
+A programozónak ez csak annyi, hogy a hangszín-fájlt (`_TAB.BIN`) és a közös 512 byte-ot olyan címre teszi, ami 00-ra
+végződik: `incbin("SONG1_TAB.BIN", $5000)`. Ha mégis rossz címre tenné, az a hang torzulásán hallatszana. A kotta
+(`_DAL.BIN`) bárhová mehet, arra ez nem vonatkozik.
 
 ## Használat
 
