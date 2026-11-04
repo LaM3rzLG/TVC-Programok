@@ -1,4 +1,4 @@
-# SID2TVC Converter 1.4
+# SID2TVC Converter 1.4.1
 
 ![SID2TVC PC CONVERTER](kepek/converter.png)
 
@@ -29,7 +29,7 @@ Csak a gépednek megfelelő program – nem kell hozzá semmi más. Mindegyik ug
 | Linux, ARM 64 bites | [`linux-arm64/`](linux-arm64/) | pl. Raspberry Pi 3/4/5 64 bites rendszerrel |
 | Linux, ARM 32 bites | [`linux-armhf/`](linux-armhf/) | pl. Raspberry Pi 32 bites rendszerrel |
 
-Rendszerenként egy ZIP-ben: [sid2tvc 1.4 release](https://github.com/LaM3rzLG/TVC-Programok/releases/tag/sid2tvc-1.4).
+Rendszerenként egy ZIP-ben: [sid2tvc 1.4.1 release](https://github.com/LaM3rzLG/TVC-Programok/releases/tag/sid2tvc-1.4.1).
 
 A program nincs digitálisan aláírva, ezért az első indításkor a rendszer figyelmeztet:
 - **Windows:** „A Windows megvédte a számítógépet” → *További információ* → *Futtatás mindenképp*.
@@ -39,7 +39,7 @@ A program nincs digitálisan aláírva, ezért az első indításkor a rendszer 
 
 ## Zene a SIDSoftEMU-hoz (SID → STC)
 
-**Windowson** elég egy vagy több `.sid` fájlt a `sid2tvc.exe` ikonjára húzni: a program a zene **összes aldalát**
+**Windowson** elég egy vagy több `.sid` fájlt a `sid2tvc.exe` ikonjára húzni: a program a SID fájl **összes dalát**
 átalakítja, és a `.sid` mellé, egy `SID_TVC` mappába teszi. Parancssorban (minden rendszeren): `sid2tvc Last_Ninja.sid`.
 
 ```
@@ -55,7 +55,7 @@ másolni, a `SIDTVC.CAS` mellé. A SIDSoftEMU fájlkezelőjében a `SID_TVC` →
 ## Zene a SID2TVC TRSE Unithoz (SID → BIN)
 
 ```
-sid2tvc -b -s 1 zene.sid          SID → BIN: a .sid 1. aldala (-a: az összes aldal)
+sid2tvc -b -s 1 zene.sid          SID → BIN: a SID fájlon belüli 1. dal (-a: az összes dal)
 sid2tvc -b SONG1.STC              STC → BIN: egy kész .STC-ből (pl. a SIDSoftEMU dalai), a .STC mellé
 sid2tvc -b -t 60 -s 1 zene.sid    ugyanez legfeljebb 1 percre, aztán elölről (kisebb dal)
 ```
@@ -77,22 +77,22 @@ sid2tvc [-s N | -a] [-b] [-t MP] [-o MAPPA] [-n NÉV] [-w] [-f N] [-m] [-q] fajl
 
 | Kapcsoló | Jelentés |
 |---|---|
-| `-s N` | csak az N. aldal (ha nincs `-a`, akkor alapból a `.sid` kezdő dala) |
-| `-a` | az összes aldal |
+| `-s N` | a SID fájlon belüli N. dal. Egy `.sid` fájlban több dal is lehet (a Last Ninja-ban 11); ha se `-s`, se `-a` nincs megadva, a fájlban megjelölt alapdal készül el |
+| `-a` | a SID fájl összes dala |
 | `-b` | BIN a SID unithoz a `.STC` helyett: `SONG<n>_TAB.BIN` és `SONG<n>_DAL.BIN`; `.STC` bemenettel is |
-| `-t MP` | legfeljebb MP másodperc, a hurkos zenéknél is, aztán elölről – rövidebb, kisebb dal (játékba) |
+| `-t MP` | legfeljebb MP másodperc, akkor is, ha a zenének van ismétlődő szakasza, aztán elölről – kisebb dal (játékba) |
 | `-o MAPPA` | a kimenet helye: `MAPPA/<NÉV>/SONG<n>…` (alapból `SID_TVC` az aktuális mappában) |
 | `-n NÉV` | a dalok mappájának neve, legfeljebb 8 betű (alapból a `.sid` fájlnevéből) |
 | `-w` | WAV-fájl is, pontosan úgy, ahogy a TVC-n szól: `SONG<n>.WAV` |
-| `-f N` | hurok nélküli zenénél legfeljebb N képkocka (50 = 1 másodperc; alapból 30000 = 10 perc) |
-| `-m` | a hurkot csak a C64 memóriájának ismétlődéséből keresi |
+| `-f N` | ha a zenének nincs ismétlődő szakasza: legfeljebb N képkocka (50 = 1 másodperc; alapból 30000 = 10 perc) |
+| `-m` | az ismétlődő szakaszt csak a C64 memóriájából keresi (a hangból nem) |
 | `-q` | csak a hibákat írja ki |
 
 Példa: `sid2tvc -a -w -n NINJA -o D:\TVC Last_Ninja.sid` → `D:\TVC\NINJA\SONG1.STC`, `SONG1.WAV`, …
 
 ## Amire figyelni kell
 
-- A program aldalanként kiírja a dal hosszát, a hurkot és a méretet. Ami a SIDSoftEMU-nak túl nagy (kb. 50 KB fölött),
+- A program dalonként kiírja a dal hosszát, az ismétlődő szakaszt és a méretet. Ami a SIDSoftEMU-nak túl nagy (kb. 50 KB fölött),
   azt kihagyja.
 - Nem kezeli (egyelőre): a gyorsított (képkockánként többször hívott, CIA-időzítésű) zenéket – ezek lassabban
   szólnak –, és a digi-hangokat (minták).

@@ -12,13 +12,13 @@ hurkából.
 ## Mi kell hozzá
 
 - **TRSE** – a unitot a programoddal együtt fordítja (Windows, Mac, Linux),
-- **[SID2TVC Converter](../SID2TVC_Converter/)** (`sid2tvc` 1.4,
+- **[SID2TVC Converter](../SID2TVC_Converter/)** (`sid2tvc` 1.4.1,
   letölthető Windowsra, Macre, Linuxra) – a PC elvégez mindent, a TVC csak lejátszik.
 
 ## A zene elkészítése
 
 ```
-sid2tvc -b -s 1 zene.sid          SID → BIN: a .sid 1. aldala (-a: az összes aldal)
+sid2tvc -b -s 1 zene.sid          SID → BIN: a SID fájlon belüli 1. dal (-a: az összes dal)
 sid2tvc -b SONG1.STC              STC → BIN: egy kész .STC-ből (pl. a SIDSoftEMU dalai), a .STC mellé
 sid2tvc -b -t 60 -s 1 zene.sid    ugyanez legfeljebb 1 percre, aztán elölről (kisebb dal)
 ```

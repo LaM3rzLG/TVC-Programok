@@ -15,7 +15,7 @@ WaterPumpGame, ...) - kivétel a GPL-es `sid2tvc` (`SID2TVC_Converter/forras/`) 
   12 dal), `SIDTVC.dsk` (egy lemez: LN1 + LN2 1-6, 9), `kepek/`, `MUKODES.md`. Forrás: a SIDSoftEMU repó `SD_KARTYA/` +
   `SIDTVC.dsk`. (1.0 = 2026-11-02, SIDSOFT.CAS + két lemez; a release-e megmarad.)
 - **2026-11-04 este:** a `sid2tvc/` mappa neve `SID2TVC_Converter/` (a felhasználó kérése: a SIDSoftEMU-hoz és a unithoz
-  is kell); **sid2tvc 1.4** (`-b` BIN a unithoz, `.STC` bemenet, `-t` hosszkorlát), release `sid2tvc-1.4`.
+  is kell); **sid2tvc 1.4** (`-b` BIN a unithoz, `.STC` bemenet, `-t` hosszkorlát), release `sid2tvc-1.4`; **1.4.1**: magyarosabb szövegek (a SID fájlon belüli N. dal, ismétlődő szakasz - a felhasználó kérése: nem aldal, nem hurok), release `sid2tvc-1.4.1`.
 - **SID2TVC TRSE Unit 1.0** (2026-11-04): `SID2TVC_TRSE_Unit/` = a SID unit (`SID.tru`), minta (SIDPelda), demózene BIN,
   README, LICENSE (MIT), `kepek/sidplayer.png`; forrása a SID-Player-for-TRSE repó (onnan másolva); release
   `sid2tvc-trse-unit-1.0`. Kiadási kép: a `tvc-kiadas-kep` skill stílusa.

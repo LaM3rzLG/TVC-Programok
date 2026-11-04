@@ -14,9 +14,9 @@ amit a processzornak kell elég sűrűn írnia. A SIDSoftEMU a munkát kétfelé
 1. **A C64-es lejátszó futtatása.** A `.sid` fájl valójában egy C64-es program (a zene lejátszó rutinja + adat). A
    `sid2tvc` egy 6502-es processzor-emulátorban képkockánként (50-szer másodpercenként) meghívja a lejátszó rutint,
    és feljegyzi, mit írt a SID regisztereibe.
-2. **A hurok megkeresése.** A legtöbb játékzene egy idő után ismétlődik. A program megkeresi az ismétlődés kezdetét
+2. **Az ismétlődő szakasz megkeresése.** A legtöbb játékzene egy idő után ismétlődik. A program megkeresi az ismétlődés kezdetét
    és hosszát, kétféleképpen: a C64 teljes memóriájának ismétlődéséből, vagy abból, hogy a hallható hang mikor kezd
-   ismétlődni. A rövidebb eredmény nyer. A TVC-n a dal így a végtelenségig szól, a hurokponttól elölről.
+   ismétlődni. A rövidebb eredmény nyer. A TVC-n a dal így a végtelenségig szól: a végén az ismétlődő szakasz elejéről folytatódik.
 3. **A SID hangjának kiszámolása.** Hangonként, képkockánként:
    - a **burkoló** (ADSR) a SID valódi időzítéseivel, ebből a pillanatnyi hangerő;
    - a **hangszín**: a program kiszámolja a hullámforma egy teljes periódusát úgy, ahogy a SID adná ki – a szűrővel
@@ -62,7 +62,7 @@ A megszakítás kb. 330 ciklus a 624-ből, vagyis **a processzor idejének kb. 5
 
 Minden 100. hang-megszakítás (= 50 Hz, a C64 képkockája) jelez a főprogramnak. Az ekkor hangonként beolvas egy
 rekordot a dalból, és beírja a megszakítás kódjába az új lépésközt, a rést és a kitöltést. Ha visszahivatkozást
-talál, onnan olvas tovább; a dal végén a hurokpontra ugrik. Ugyanekkor frissíti a százalékot a képernyőn.
+talál, onnan olvas tovább; a dal végén az ismétlődő szakasz elejére ugrik. Ugyanekkor frissíti a százalékot a képernyőn.
 
 A képernyő 312 sora pontosan 100 hang-megszakítás ideje, így a megszakítás a képhez van igazítva: ezért tudja a
 keret a szöveg mellett a kimenő hang szintjét mutatni (a villogó sáv), mindig ugyanazokon a sorokon.
