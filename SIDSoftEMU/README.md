@@ -89,6 +89,8 @@ Linux; Windowson elég a `.sid`-et a programra húzni). Ingyenes `.sid` zenék: 
 
 Részletesen: [MUKODES.md](MUKODES.md).
 
+**Saját programba:** a lejátszó önállóan, forrással és leírással: [SIDSoftEMU / SIDLEJATSZO](https://github.com/LaM3rzLG/SIDSoftEMU/tree/main/SIDLEJATSZO).
+
 ## Változások
 
 **1.1** (2026-11-04)
