@@ -18,17 +18,19 @@ hurkából.
 ## A zene elkészítése
 
 ```
-sid2tvc -b -s 1 zene.sid        az 1. aldal (-a: az összes aldal)
-sid2tvc -b SONG1.STC            egy kész .STC-ből (pl. a SIDSoftEMU dalai)
-sid2tvc -b -t 60 zene.sid       legfeljebb 1 perc, aztán elölről - kisebb dal
+sid2tvc -b -s 1 zene.sid          SID → BIN: a .sid 1. aldala (-a: az összes aldal)
+sid2tvc -b SONG1.STC              STC → BIN: egy kész .STC-ből (pl. a SIDSoftEMU dalai), a .STC mellé
+sid2tvc -b -t 60 -s 1 zene.sid    ugyanez legfeljebb 1 percre, aztán elölről (kisebb dal)
 ```
 
 Dalonként két fájl lesz, és a program kiírja a méretüket:
 
-| Fájl | Mi | Hová |
+| Fájl | Mi | Hová kell tölteni |
 |---|---|---|
-| `SONG1_TAB.BIN` | a dal hangszín-táblái – csak amennyit a dal tényleg használ (1–14 × 256 byte) | **laphatárra** (`$xx00`) |
-| `SONG1_DAL.BIN` | a kotta | **bárhová** |
+| `SONG1_TAB.BIN` | a hangszín-táblák – csak amennyit a dal használ (1–14 × 256 byte) | laphatárra (`$xx00`) |
+| `SONG1_DAL.BIN` | a kotta, áthelyezhető | bárhová |
+
+A sid2tvc minden kapcsolója (és a SID → STC a SIDSoftEMU-hoz): [SID2TVC Converter](../SID2TVC_Converter/).
 
 Kell még egy közös, 512 byte-os hely (laphatáron): ide a unit maga készíti el a zaj- és a szinttáblát. Több zenénél is
 elég egy. Hogy mi hová kerül, azt a programozó dönti el a méretek alapján.

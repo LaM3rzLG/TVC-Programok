@@ -84,17 +84,17 @@ A program aldalanként kiírja a dal hosszát, a hurkot és a fájl méretét. H
 ### BIN a SID unithoz (`-b`)
 
 ```
-sid2tvc -b -s 1 zene.sid        a .sid 1. aldala (-a: az összes)
-sid2tvc -b SONG1.STC            egy kész .STC-ből: SONG1_TAB.BIN, SONG1_DAL.BIN a .STC mellé
-sid2tvc -b -t 60 -s 1 zene.sid  legfeljebb 1 perc
+sid2tvc -b -s 1 zene.sid          SID → BIN: a .sid 1. aldala (-a: az összes aldal)
+sid2tvc -b SONG1.STC              STC → BIN: egy kész .STC-ből (pl. a SIDSoftEMU dalai), a .STC mellé
+sid2tvc -b -t 60 -s 1 zene.sid    ugyanez legfeljebb 1 percre, aztán elölről (kisebb dal)
 ```
 
-Dalonként két fájl lesz, a program kiírja a méretüket:
+Dalonként két fájl lesz, és a program kiírja a méretüket:
 
 | Fájl | Mi | Hová kell tölteni |
 |---|---|---|
-| `SONG1_TAB.BIN` | a hangszín-táblák – **csak amennyit a dal használ** (1–14 × 256 byte) | laphatárra (`$xx00`) |
-| `SONG1_DAL.BIN` | a kotta, **áthelyezhető** (a belső címek a kotta elejéhez képest) | bárhová |
+| `SONG1_TAB.BIN` | a hangszín-táblák – csak amennyit a dal használ (1–14 × 256 byte) | laphatárra (`$xx00`) |
+| `SONG1_DAL.BIN` | a kotta, áthelyezhető | bárhová |
 
 A használatuk a [SID2TVC TRSE Unit](../SID2TVC_TRSE_Unit/) leírásában.
 
