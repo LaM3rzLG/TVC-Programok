@@ -1,0 +1,75 @@
+program SIDPelda;
+@use "GE"
+@use "SID"
+
+/* Minta a SID unithoz: háttérzene egy egyszerű "játék" alatt - egy négyzet pattog, képkockánként mozog.
+   Bármely gomb = vége. A zene: sid2tvc -b DEMO.STC -> DEMO_TAB.BIN (14 tábla) + DEMO_DAL.BIN. Memória:
+   $4E00-$4FFF a közös 512 byte (a unit tölti), $5000-$5DFF a táblák, $5E00-tól a kotta - mind az U0/U1-ben, ezért
+   bármilyen lapozás jó (itt GE::MEM_VID_ON). */
+
+var
+	DemoTab		:	incbin("resources/demo/DEMO_TAB.BIN", $5000);	/* laphatárra */
+	DemoDal		:	incbin("resources/demo/DEMO_DAL.BIN", $5E00);	/* The Last Ninja 1. dal, 1 perc */
+	x, y, dx, dy, Gomb	:	byte;
+
+/* Gomb := 1, ha valamelyik billentyű le van nyomva (a billentyűzet-sorok közvetlenül: port 3, port $58) */
+procedure Billentyu();
+begin
+	asm("
+		ld	a,($0B11)
+		and	$F0
+		ld	b,10
+	PeSor:
+		out	($03),a
+		ld	c,a
+		in	a,($58)
+		inc	a
+		jr	nz,PeVan
+		ld	a,c
+		inc	a
+		djnz	PeSor
+		xor	a
+		jr	PeKi
+	PeVan:
+		ld	a,1
+	PeKi:
+		ld	(Gomb),a
+		ld	a,($0B11)
+		out	($03),a
+	");
+end;
+
+begin
+	GE::Init(GE::DIRECT_TO_SCREEN);
+	GE::SetGraphics(GE::GRAPHICS16);
+	GE::ClearScreen(GE::GR16_COLOR_BLACK);
+	GE::SetMemory(GE::MEM_VID_ON);		/* U0, U1, VID, SYS: a képernyő látszik; a SID táblái az U1-ben vannak */
+
+	SID::Init(#DemoDal, $50, $4E);		/* a kotta, a táblák lapja ($5000), a közös 512 byte lapja ($4E00) */
+	if (SID::Hiba <> 0) then
+		while (true) do begin end;		/* rossz .STC: nem indul */
+	SID::Start();
+
+	x := 10;
+	y := 50;
+	dx := 1;
+	dy := 2;
+	Gomb := 1;
+	while (Gomb = 1) do Billentyu();		/* a LOAD RETURN-je */
+	while (Gomb = 0) do
+	begin
+		SID::Sync();						/* képkocka-szinkron (a kép alja) */
+		GE::FillRect(x, y, 4, 16, GE::GR16_COLOR_BLACK);
+		x := x + dx;
+		y := y + dy;
+		if ((x = 0) or (x = 60)) then dx := 0 - dx;
+		if ((y = 0) or (y = 224)) then dy := 0 - dy;
+		GE::FillRect(x, y, 4, 16, GE::GR16_COLOR_YELLOW);
+		SID::Play();						/* a zene léptetése */
+		Billentyu();
+	end;
+
+	SID::Stop();
+	GE::ClearScreen(GE::GR16_COLOR_BLACK);
+	while (true) do begin end;
+end.

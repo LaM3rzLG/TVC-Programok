@@ -1,14 +1,21 @@
-# sid2tvc 1.3
+# SID2TVC Converter (sid2tvc 1.4)
 
-**C64-es `.sid` zenéből a TVC [SIDSoftEMU](../SIDSoftEMU/) lejátszójának dalfájlja (`.STC`).** A PC-n fut, és
-elvégzi mindazt, amihez sok számolás kell. A TVC utána már csak lejátssza a kész fájlt. Hogy ez hogyan működik:
-[MUKODES.md](../SIDSoftEMU/MUKODES.md).
+**C64-es `.sid` zenéből TVC-zene – a PC-n.** Elvégzi mindazt, amihez sok számolás kell, a TVC utána már csak lejátszik.
+Két dolgot tud készíteni:
+
+| Mit | Parancs | Kinek |
+|---|---|---|
+| **SID → STC** | `sid2tvc zene.sid` | a [SIDSoftEMU](../SIDSoftEMU/) lejátszónak (`.STC` dalfájl) |
+| **SID → BIN** | `sid2tvc -b -s 1 zene.sid` | a [SID2TVC TRSE Unit](../SID2TVC_TRSE_Unit/)-nak (saját programba, játékba) |
+| **STC → BIN** | `sid2tvc -b SONG1.STC` | ugyanaz egy kész `.STC`-ből |
+
+Hogy ez hogyan működik: [MUKODES.md](../SIDSoftEMU/MUKODES.md).
 
 Ingyenes `.sid` zenék tízezrei: [High Voltage SID Collection (HVSC)](https://www.hvsc.c64.org/).
 
 ## Letöltés
 
-Mindegyik ugyanaz a program, és bájtra ugyanazt a `.STC`-t adja.
+Mindegyik ugyanaz a program, és bájtra ugyanazt a `.STC`-t / BIN-t adja.
 
 | Rendszer | Mappa | Megjegyzés |
 |---|---|---|
@@ -20,7 +27,7 @@ Mindegyik ugyanaz a program, és bájtra ugyanazt a `.STC`-t adja.
 | Linux, ARM 64 bites | [`linux-arm64/`](linux-arm64/) | pl. Raspberry Pi 3/4/5 64 bites rendszerrel |
 | Linux, ARM 32 bites | [`linux-armhf/`](linux-armhf/) | pl. Raspberry Pi 32 bites rendszerrel |
 
-Rendszerenként egy ZIP-ben is letölthető a [release oldalon](https://github.com/LaM3rzLG/TVC-Programok/releases/tag/sid2tvc-1.3).
+Rendszerenként egy ZIP-ben is letölthető a [release oldalon](https://github.com/LaM3rzLG/TVC-Programok/releases/tag/sid2tvc-1.4).
 
 ### Első indítás
 
@@ -66,11 +73,30 @@ sid2tvc [-s N | -a] [-o MAPPA] [-n NÉV] [-w] [-f N] [-m] [-q] fajl.sid [fajl2.s
 | `-f N` | hurok nélküli zenénél legfeljebb N képkocka (50 = 1 másodperc; alapból 30000 = 10 perc) |
 | `-m` | a hurkot csak a C64 memóriájának ismétlődéséből keresi |
 | `-q` | csak a hibákat írja ki |
+| `-b` | **BIN a SID unithoz** a `.STC` helyett: `SONG<n>_TAB.BIN` és `SONG<n>_DAL.BIN` (lásd lent); `.STC` bemenettel is |
+| `-t MP` | legfeljebb MP másodperc, **a hurkos zenéknél is**, aztán elölről – rövidebb, kisebb dal (játékba) |
 
 Példa: `sid2tvc -a -w -n NINJA -o D:\TVC Last_Ninja.sid` → `D:\TVC\NINJA\SONG1.STC`, `SONG1.WAV`, …
 
 A program aldalanként kiírja a dal hosszát, a hurkot és a fájl méretét. Ha egy dal nem fér el a TVC memóriájában
 (kb. 50 KB fölött), azt kiírja, és kihagyja.
+
+### BIN a SID unithoz (`-b`)
+
+```
+sid2tvc -b -s 1 zene.sid        a .sid 1. aldala (-a: az összes)
+sid2tvc -b SONG1.STC            egy kész .STC-ből: SONG1_TAB.BIN, SONG1_DAL.BIN a .STC mellé
+sid2tvc -b -t 60 -s 1 zene.sid  legfeljebb 1 perc
+```
+
+Dalonként két fájl lesz, a program kiírja a méretüket:
+
+| Fájl | Mi | Hová kell tölteni |
+|---|---|---|
+| `SONG1_TAB.BIN` | a hangszín-táblák – **csak amennyit a dal használ** (1–14 × 256 byte) | laphatárra (`$xx00`) |
+| `SONG1_DAL.BIN` | a kotta, **áthelyezhető** (a belső címek a kotta elejéhez képest) | bárhová |
+
+A használatuk a [SID2TVC TRSE Unit](../SID2TVC_TRSE_Unit/) leírásában.
 
 ### Mit nem tud (egyelőre)
 

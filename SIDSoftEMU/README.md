@@ -76,7 +76,7 @@ tovább, amíg meg nem állítod.
 A zenék szerzői jogai a szerzőké és a kiadóé. Az eredeti `.sid` fájlok forrása a
 [High Voltage SID Collection (HVSC)](https://www.hvsc.c64.org/). A Last Ninja 2 12. dala túl nagy, ezért kimaradt.
 
-**Saját zenék:** bármely `.sid` fájlt a [`sid2tvc`](../sid2tvc/) átalakítóval lehet `.STC`-vé alakítani (Windows, macOS,
+**Saját zenék:** bármely `.sid` fájlt a [`sid2tvc`](../SID2TVC_Converter/) átalakítóval lehet `.STC`-vé alakítani (Windows, macOS,
 Linux; Windowson elég a `.sid`-et a programra húzni). Ingyenes `.sid` zenék: [HVSC](https://www.hvsc.c64.org/).
 
 ## Hogyan működik (röviden)
@@ -89,7 +89,7 @@ Linux; Windowson elég a `.sid`-et a programra húzni). Ingyenes `.sid` zenék: 
 
 Részletesen: [MUKODES.md](MUKODES.md).
 
-**Saját programba / játékba:** a lejátszó TRSE-unitként, mintával és leírással: [SID Player for TRSE](https://github.com/LaM3rzLG/SID-Player-for-TRSE).
+**Saját programba / játékba:** a lejátszó TRSE-unitként, mintával és leírással: [SID2TVC TRSE Unit](../SID2TVC_TRSE_Unit/).
 
 ## Változások
 
